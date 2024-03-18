@@ -6,6 +6,8 @@ User = get_user_model()
 
 
 class Category(PublishedModel):
+    """Модель описывающая категории для постов"""
+
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
@@ -26,6 +28,8 @@ class Category(PublishedModel):
 
 
 class Location (PublishedModel):
+    """Модель описывающая местоположение для постов"""
+
     name = models.CharField(max_length=256, verbose_name='Название места')
 
     class Meta:
@@ -37,6 +41,8 @@ class Location (PublishedModel):
 
 
 class Post(PublishedModel):
+    """Модель описывающая публикацию(пост)"""
+
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
@@ -49,13 +55,11 @@ class Post(PublishedModel):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
         verbose_name='Автор публикации',
     )
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,
-        related_name='posts',
         verbose_name='Местоположение',
         null=True,
         blank=True,
@@ -63,7 +67,6 @@ class Post(PublishedModel):
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
-        related_name='posts',
         verbose_name='Категория',
         null=True,
     )
@@ -72,6 +75,7 @@ class Post(PublishedModel):
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
         ordering = ('-pub_date', 'title')
+        default_related_name = 'posts'
 
     def __str__(self):
         return self.title
