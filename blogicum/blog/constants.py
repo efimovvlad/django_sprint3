@@ -1,1 +1,1 @@
-number_of_posts = 5
+NUMBER_OF_POSTS = 5
